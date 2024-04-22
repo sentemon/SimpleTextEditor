@@ -39,17 +39,32 @@ namespace SimpleTextEditor
         {
             string directoryPath = Path.GetDirectoryName(filePath);
 
-            if (!Directory.Exists(directoryPath)) // Checking if directory exists, if not, create it
+            if (string.IsNullOrEmpty(directoryPath)) // If directory path is empty, set it to current directory
+            {
+                directoryPath = Directory.GetCurrentDirectory();
+            }
+
+            else if (!Directory.Exists(directoryPath)) // Checking if directory exists, if not, create it
+            {
                 Directory.CreateDirectory(directoryPath);
+            }
 
             using (StreamWriter sw = new StreamWriter(filePath, true))
             {
                 Console.WriteLine();
-                string textMessage = "Enter the text you want to write to the file: ";
+                string textMessage = "Enter the text you want to write to the file: " + "(Type \"!exit\" to exit)";
                 WriteMessage(textMessage);
 
                 string text = Console.ReadLine();
-                sw.WriteLine(text);
+
+                while (text != "!exit") // Write to file until user types "!exit"
+                {
+                    sw.WriteLine(text);
+                    text = Console.ReadLine();
+                }
+
+                string fileWrittenMessage = "File saved successfully!";
+                WriteMessage(fileWrittenMessage);
             }
         }
 
@@ -58,9 +73,9 @@ namespace SimpleTextEditor
             string welcomeMessage = "Welcome to Simple Text Editor!";
             WriteMessage(welcomeMessage);
 
-            string enterPath = "Enter the file path to the text file you want to edit: ";
+            string enterPath = "Enter the file path to the text file you want to edit: " + "(Actually you are here: " + Directory.GetCurrentDirectory() + ")";
             WriteMessage(enterPath);    
-            
+
             string filePath = Console.ReadLine();
             try
             {
@@ -99,20 +114,25 @@ namespace SimpleTextEditor
                     string fileDoesNotExistMessage = "File does not exist!";
                     WriteMessage(fileDoesNotExistMessage);
 
-                    string createFileMessage = "Do you want to create the file? (y/n)";
+                    string createFileMessage = "Do you want to create the file or try again or exit? (create file: \"c\", try again: \"t\", exit: \"e\")";
                     WriteMessage(createFileMessage);
 
                     string isCreateFile = Console.ReadKey().KeyChar.ToString().ToLower();
-                    bool createFile = isCreateFile == "y" ? true : false;
-
-                    if (createFile)
+                    
+                    if (isCreateFile == "c")
                     {
                         WriteFile(filePath);
                     }
 
-                    else
+                    else if (isCreateFile == "t")
                     {
-                        string exitMessage = "Exiting...";
+                        Console.WriteLine();
+                        Main(args);
+                    }
+
+                    else if (isCreateFile == "e")
+                    {
+                        string exitMessage = "\nExiting...";
                         WriteMessage(exitMessage);
                     }
                 }
