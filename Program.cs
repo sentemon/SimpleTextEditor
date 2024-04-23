@@ -8,6 +8,7 @@ namespace SimpleTextEditor
 {
     class Program
     {
+        // Write message with delay for better user experience
         static void WriteMessage(string message, int speedDelay = 50) // Write message with delay
         {
             foreach (var c in message)
@@ -18,7 +19,8 @@ namespace SimpleTextEditor
             Console.WriteLine();
         }
 
-        static void ReadFile(string filePath) // Read file
+        // Read file
+        static void ReadFile(string filePath) 
         {
             using (StreamReader sr = new StreamReader(filePath))
             {
@@ -37,7 +39,8 @@ namespace SimpleTextEditor
             checkContinue();
         }
 
-        static void WriteFile(string filePath) // Write to file
+        // Write to file
+        static void WriteFile(string filePath) 
         {
             string directoryPath = Path.GetDirectoryName(filePath);
 
@@ -51,7 +54,7 @@ namespace SimpleTextEditor
                 Directory.CreateDirectory(directoryPath);
             }
 
-            using (StreamWriter sw = new StreamWriter(filePath, true))
+            using (StreamWriter sw = new StreamWriter(filePath, true)) 
             {
                 Console.WriteLine();
                 string textMessage = "Enter the text you want to write to the file: " + "(Type \"!exit\" to exit)";
@@ -72,7 +75,8 @@ namespace SimpleTextEditor
             checkContinue();
         }
 
-        static void checkContinue() // Ask user if they want to continue or exit
+        // Ask user if they want to continue or exit
+        static void checkContinue() 
         {
             string continueMessage = "Do you want to continue? (y/n)";
             WriteMessage(continueMessage);
@@ -99,7 +103,8 @@ namespace SimpleTextEditor
             }
         }
 
-        static void DeleteFile(string filePath) // Delete file
+        // Delete file
+        static void DeleteFile(string filePath)
         {
             string deleteMessage = "\nAre you sure you want to delete the file? (y/n)";
             WriteMessage(deleteMessage);
@@ -122,6 +127,7 @@ namespace SimpleTextEditor
             checkContinue();
         }
 
+        // Start program (I could have used Main method but I wanted to use this method for my own learning purposes)
         static void StartProgram()
         {
             string welcomeMessage = "Welcome to Simple Text Editor!";
@@ -138,7 +144,7 @@ namespace SimpleTextEditor
                     string fileExistsMessage = "File exists!";
                     WriteMessage(fileExistsMessage);
 
-                    doYouWantToReadOrWriteOrDelete:
+                    doYouWantToReadOrWriteOrDelete: // I know it's not a good practice but I want to use it for my own learning purposes
                     string modeMessage = "Do you want to read or write or delete the file? (read: \"r\", write: \"w\", delete: \"d\")";
                     WriteMessage(modeMessage);
 
@@ -164,7 +170,7 @@ namespace SimpleTextEditor
                         string invalidModeMessage = "\nInvalid mode!";
                         WriteMessage(invalidModeMessage);
 
-                        goto doYouWantToReadOrWriteOrDelete;
+                        goto doYouWantToReadOrWriteOrDelete; // I know it's not a good practice but I want to use it for my own learning purposes
                     }
                 }
 
@@ -201,12 +207,10 @@ namespace SimpleTextEditor
                 Console.WriteLine("\n" + e.Message);
             }
         }
-
-
         static void Main(string[] args)
         {
-            Console.Clear();
-            StartProgram();
+            Console.Clear(); // Clear console for better user experience
+            StartProgram(); // Here we go!
         }
     }
 }
