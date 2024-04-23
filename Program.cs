@@ -101,7 +101,7 @@ namespace SimpleTextEditor
 
         static void DeleteFile(string filePath) // Delete file
         {
-            string deleteMessage = "Are you sure you want to delete the file? (y/n)";
+            string deleteMessage = "\nAre you sure you want to delete the file? (y/n)";
             WriteMessage(deleteMessage);
 
             string isDelete = Console.ReadKey().KeyChar.ToString().ToLower();
@@ -109,13 +109,13 @@ namespace SimpleTextEditor
             if (isDelete == "y")
             {
                 File.Delete(filePath);
-                string fileDeletedMessage = "File deleted successfully!";
+                string fileDeletedMessage = "\nFile deleted successfully!";
                 WriteMessage(fileDeletedMessage);
             }
 
             else
             {
-                string fileNotDeletedMessage = "File not deleted!";
+                string fileNotDeletedMessage = "\nFile not deleted!";
                 WriteMessage(fileNotDeletedMessage);
             }
 
@@ -138,7 +138,7 @@ namespace SimpleTextEditor
                     string fileExistsMessage = "File exists!";
                     WriteMessage(fileExistsMessage);
 
-                    doYouWantToReadOrWrite:
+                    doYouWantToReadOrWriteOrDelete:
                     string modeMessage = "Do you want to read or write or delete the file? (read: \"r\", write: \"w\", delete: \"d\")";
                     WriteMessage(modeMessage);
 
@@ -164,7 +164,7 @@ namespace SimpleTextEditor
                         string invalidModeMessage = "\nInvalid mode!";
                         WriteMessage(invalidModeMessage);
 
-                        goto doYouWantToReadOrWrite;
+                        goto doYouWantToReadOrWriteOrDelete;
                     }
                 }
 
@@ -205,6 +205,7 @@ namespace SimpleTextEditor
 
         static void Main(string[] args)
         {
+            Console.Clear();
             StartProgram();
         }
     }
