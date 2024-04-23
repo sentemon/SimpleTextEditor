@@ -24,15 +24,17 @@ namespace SimpleTextEditor
             {
                 Console.WriteLine();
                 string wait = "--------------------";
-                WriteMessage(wait, 100);
+                WriteMessage(wait, 25);
 
                 while (sr.Peek() > -1)
                 {
                     Console.WriteLine(sr.ReadLine());
                 }
 
-                WriteMessage(wait, 100);   
+                WriteMessage(wait, 25);   
             }
+
+            checkContinue();
         }
 
         static void WriteFile(string filePath) // Write to file
@@ -66,41 +68,98 @@ namespace SimpleTextEditor
                 string fileWrittenMessage = "File saved successfully!";
                 WriteMessage(fileWrittenMessage);
             }
+
+            checkContinue();
         }
 
-        static void Main(string[] args)
+        static void checkContinue() // Ask user if they want to continue or exit
+        {
+            string continueMessage = "Do you want to continue? (y/n)";
+            WriteMessage(continueMessage);
+
+            string isContinue = Console.ReadKey().KeyChar.ToString().ToLower();
+
+            if (isContinue == "y")
+            {
+                Console.WriteLine();
+                Main(null);
+            }
+
+            else if (isContinue == "n")
+            {
+                string exitMessage = "\nExiting...";
+                WriteMessage(exitMessage);
+            }
+
+            else
+            {
+                string invalidContinueMessage = "\nInvalid input!";
+                WriteMessage(invalidContinueMessage);
+                checkContinue();
+            }
+        }
+
+        static void DeleteFile(string filePath) // Delete file
+        {
+            string deleteMessage = "Are you sure you want to delete the file? (y/n)";
+            WriteMessage(deleteMessage);
+
+            string isDelete = Console.ReadKey().KeyChar.ToString().ToLower();
+
+            if (isDelete == "y")
+            {
+                File.Delete(filePath);
+                string fileDeletedMessage = "File deleted successfully!";
+                WriteMessage(fileDeletedMessage);
+            }
+
+            else
+            {
+                string fileNotDeletedMessage = "File not deleted!";
+                WriteMessage(fileNotDeletedMessage);
+            }
+
+            checkContinue();
+        }
+
+        static void StartProgram()
         {
             string welcomeMessage = "Welcome to Simple Text Editor!";
             WriteMessage(welcomeMessage);
 
             string enterPath = "Enter the file path to the text file you want to edit: " + "(Actually you are here: " + Directory.GetCurrentDirectory() + ")";
-            WriteMessage(enterPath);    
+            WriteMessage(enterPath);
 
             string filePath = Console.ReadLine();
             try
             {
-                if (File.Exists(filePath)) // Check if file exists
+                if (File.Exists(filePath))
                 {
                     string fileExistsMessage = "File exists!";
                     WriteMessage(fileExistsMessage);
 
                     doYouWantToReadOrWrite:
-                    string modeMessage = "Do you want to read or write to the file? (r/w)";
+                    string modeMessage = "Do you want to read or write or delete the file? (read: \"r\", write: \"w\", delete: \"d\")";
                     WriteMessage(modeMessage);
 
                     string mode = Console.ReadKey().KeyChar.ToString().ToLower();
 
-                    if (mode == "r") // Read file if mode is "r"
+                    if (mode == "r")
                     {
                         ReadFile(filePath);
                     }
 
-                    else if (mode == "w") // Write to file if mode is "w"
+                    else if (mode == "w")
                     {
                         WriteFile(filePath);
                     }
 
-                    else // If mode is invalid, ask again by using goto (it isn't recommended to use goto, but i used it for practice)
+                    else if (mode == "d")
+                    {
+                        DeleteFile(filePath);
+                    }
+
+                    else
                     {
                         string invalidModeMessage = "\nInvalid mode!";
                         WriteMessage(invalidModeMessage);
@@ -127,7 +186,7 @@ namespace SimpleTextEditor
                     else if (isCreateFile == "t")
                     {
                         Console.WriteLine();
-                        Main(args);
+                        Main(null);
                     }
 
                     else if (isCreateFile == "e")
@@ -141,7 +200,12 @@ namespace SimpleTextEditor
             {
                 Console.WriteLine("\n" + e.Message);
             }
-            
+        }
+
+
+        static void Main(string[] args)
+        {
+            StartProgram();
         }
     }
 }
