@@ -25,7 +25,7 @@ This is a simple text editor program written in C#. It allows users to read, wri
 
 ## Screenshots
 #### Appearance example:
-![Simple Text Editor Screenshot](/img/example.png)
+![Simple Text Editor Screenshot](/SimpleTextEditor/Assets/example.png)
 
 ## Credits
 - Author: Ivan Sentemon
